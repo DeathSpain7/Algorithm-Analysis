@@ -1,5 +1,8 @@
-# Importamos la biblioteca time para calcular el tiempo de ejecución
+# Importamos las bibliotecas necesarias
 import time
+import matplotlib.pyplot as plt
+import numpy as np
+
 def sub_suma_max(arr):
     max_suma = 0
 
@@ -15,14 +18,34 @@ def sub_suma_max(arr):
                 max_suma = sub_suma
 
     return max_suma
-# Declaramos la lista de numeros que vamos a utilizar
-numbers = [1, -2, 3, 4, -5, 6, -7, 8, 9, -10]
 
-start_time = time.perf_counter()
-max_sum = sub_suma_max(numbers)
+# Creamos listas de diferentes tamaños
+sizes = np.arange(1, 1001, 100)
+execution_times = []
 
-# Calculamos el tiempo de ejecución como la diferencia entre el tiempo actual y el tiempo de inicio
-execution_time = time.perf_counter() - start_time
+# Iniciamos el tiempo total de ejecución
+total_start_time = time.perf_counter()
 
-print(f"La suma máxima del subarray de la lista: {numbers} es: {sub_suma_max(numbers)}.")
-print(f"El tiempo de ejecución fue de: {execution_time} segundos.")
+for size in sizes:
+    # Creamos una lista de números aleatorios del tamaño actual
+    numbers = np.random.randint(-10, 10, size)
+
+    start_time = time.perf_counter()
+    max_sum = sub_suma_max(numbers)
+    execution_time = time.perf_counter() - start_time
+
+    execution_times.append(execution_time)
+
+# Calculamos el tiempo total de ejecución
+total_execution_time = time.perf_counter() - total_start_time
+
+# Creamos una gráfica para mostrar los tiempos de ejecución
+plt.figure(figsize=(10, 6))
+plt.plot(sizes, execution_times, color='blue')
+plt.xlabel('Tamaño de la lista')
+plt.ylabel('Segundos')
+plt.title('Tiempo de ejecución de la función sub_suma_max')
+plt.show()
+
+# Imprimimos el tiempo total de ejecución
+print(f"El tiempo total de ejecución del programa fue de: {total_execution_time} segundos.")
